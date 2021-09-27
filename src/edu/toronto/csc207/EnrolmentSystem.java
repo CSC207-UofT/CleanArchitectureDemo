@@ -25,7 +25,7 @@ public class EnrolmentSystem {
         StudentPropertiesIterator prompts = new StudentPropertiesIterator();
         List<String> temp = new ArrayList<>();
 
-        System.out.println("Type 'exit' to quit or 'ok' to continue.");
+        inOut.sendOutput("Type 'exit' to quit or 'ok' to continue.");
         try {
             String input = inOut.getInput();
             while (!input.equals("exit") && prompts.hasNext()) { // != compares memory addresses.
@@ -46,7 +46,7 @@ public class EnrolmentSystem {
                 studentManager.add(temp);
                 Course c = new Course(temp.get(temp.size() - 1));
                 studentManager.enrolAllInCourse(c);
-                inOut.sendOutput(studentManager.toString());
+                inOut.sendOutput(studentManager);
             }
         } catch (IndexOutOfBoundsException e) {
             inOut.sendOutput("Empty enrolment");
