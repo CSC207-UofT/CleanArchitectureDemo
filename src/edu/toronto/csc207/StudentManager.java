@@ -15,15 +15,15 @@ public class StudentManager {
      * Creates a StudentManager with lists of Student and Course that are empty
      */
     public StudentManager() {
-        students = new ArrayList<Student>();
-        courses = new ArrayList<Course>();
+        students = new ArrayList<>();
+        courses = new ArrayList<>();
     }
 
     /**
      * Adds an instance of Student to the overall list of Students
      * @param info Student name, number, date of birth, and course
      */
-    public void add(ArrayList<String> info) {
+    public void add(List<String> info) {
         Student s = new Student(info);
         students.add(s);
     }

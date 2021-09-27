@@ -1,51 +1,55 @@
 package edu.toronto.csc207;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controls the system responsible for storing Students, Courses, and Enrollment.
  */
 public class EnrolmentSystem {
 
-    private StudentManager sm1 = new StudentManager();
+    public interface InOut {
+        String getInput() throws IOException;
+
+        void sendOutput(Object s);
+    }
+
+    private StudentManager studentManager = new StudentManager();
 
     /**
      * Interacts with the user to prompt input of a student and course information.
      */
-    public void run() {
+    public void run(InOut inOut) {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StudentPropertiesIterator prompts = new StudentPropertiesIterator();
-        ArrayList<String> temp = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
 
         System.out.println("Type 'exit' to quit or 'ok' to continue.");
         try {
-            String input = br.readLine();
+            String input = inOut.getInput();
             while (!input.equals("exit") && prompts.hasNext()) { // != compares memory addresses.
 
-                System.out.println(prompts.next());
-                input = br.readLine();
+                inOut.sendOutput(prompts.next());
+                input = inOut.getInput();
                 if (!input.equals("exit")) {
                     temp.add(input);
                 }
             }
-            System.out.println(temp);
+            inOut.sendOutput(temp);
         } catch (IOException e) {
-            System.out.println("Something went wrong");
+            inOut.sendOutput("Something went wrong");
         }
 
         try {
-            if(temp.get(0) != null) {
-                sm1.add(temp);
-                Course c = new Course(temp.get(temp.size()-1));
-                sm1.enrolAllInCourse(c);
-                System.out.println(sm1);
+            if (temp.get(0) != null) {
+                studentManager.add(temp);
+                Course c = new Course(temp.get(temp.size() - 1));
+                studentManager.enrolAllInCourse(c);
+                inOut.sendOutput(studentManager.toString());
             }
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Empty enrolment");
+            inOut.sendOutput("Empty enrolment");
         }
 
     }
